@@ -8,5 +8,5 @@ def myDecorator(obj):
             if type(var) == t:
                 counter += 1
         return counter
-    setattr(obj, 'countVarClass', countVarClass)
+    obj.countVarClass = countVarClass
     return obj
