@@ -1,21 +1,26 @@
-def dFact(list_shift):
+import functools
+def dFact(L):
     def wrapper(fun):
+        functools.wraps(fun)
         def inner_wrapper(*args,**kwargs):
-            for shift in list_shift:
-                new_args = [arg + shift for arg in args]
-                new_kwagrs = {key:arg + shift for key,arg in kwargs.items()}
+            for l in L:
                 try:
-                    res = fun(*new_args,**new_kwagrs)
-                except:
-                    return StopIteration
-                yield res
+                    new_args = [arg + l for arg in args]
+                    new_kwargs = {key : kwargs[key] + l for key in kwargs}
+                    yield fun(*new_args,**new_kwargs)
+                except TypeError:
+                    return
         return inner_wrapper
-    return wrapper
+    return wrapper 
 
 @dFact([1,2,3,4])
-def p(number):
-    print(number)
-    return number
+def my_print(*args,**kwargs):
+    print(args)
+    print(kwargs)
+    return 0
 
-for a in p(1):
-    print(a)
+a = my_print(1,2,['dasdas'],4,arg = 5,argw = 6)
+
+for element in a:
+    print(element)
+

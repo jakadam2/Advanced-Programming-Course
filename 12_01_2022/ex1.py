@@ -1,29 +1,27 @@
-from copy import deepcopy
-
 class C:
 
-    d = 6
-    e = 'asas'
-    def __init__(self,a,b,c) -> None:
-        self.a = a
-        self.b = b
-        self.c = c
+    a = 'sssaas'
+    b = 3
+    d = 'dADASDASDASDAS'
+
+    def __init__(self) -> None:
+        self.c = 'asdasdasd'
 
     @classmethod
     def addProperty(cls):
-        for key in vars(cls):
-            if not key.startswith('__') and type(getattr(cls,key)) is str:
-                setattr(cls,key,getattr(cls,key))
+        variables = [var for var in vars(cls) if var[0] != '_' and not callable(getattr(cls,var))]
+        for var in variables:
+            if type(getattr(cls,var)) == str:
+                value = getattr(cls,var)
+                print(var)
+                def get(cls,var = var):
+                    return getattr(cls,f'_{str(var)}')
 
-                def getter(cls):
-                    return getattr(cls,deepcopy('__' + key))
-                def setter(cls,value):
-                    if type(value) is str:
-                        cls.__dict__[key] = value
-                    else:
-                        raise TypeError()
-                setattr(cls,key,property(getter,setter))
+                def set(cls,val,var = var):
+                    if type(val) != str:
+                        raise AttributeError(f'It is no possibility to set attribute {var} to {val}')
+                    setattr(cls,f'_{str(var)}',val)
 
-a = C(1,2,'sfafas')
-a.addProperty()
-print(a.e)
+                setattr(cls,f'_{str(var)}',value)
+                setattr(cls,str(var),property(get,set))
+                

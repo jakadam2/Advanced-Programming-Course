@@ -44,5 +44,4 @@ def default_handler(suc = None):
             print(f'Event {event} default')
 
 pipeline = handler04(handler59(handlergt9(default_handler())))
-
-
+pipeline.send(5)
