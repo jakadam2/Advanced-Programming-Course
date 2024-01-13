@@ -1,3 +1,4 @@
+import functools
 def coroutine(func):
     @functools.wrap(func)
     def wrapper(*args,**kwargs):
